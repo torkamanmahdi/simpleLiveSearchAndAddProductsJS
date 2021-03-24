@@ -1,24 +1,11 @@
-const products = [
-	{
-		title: 'product 1',
-		exist: true
-	},
-	{
-		title: 'product 2',
-		exist: false
-	},
-	{
-		title: 'product 3',
-		exist: true
-	},
-	{
-		title: 'product 4',
-		exist: false
-	}
-]
+const products = []
 const filters = {
 	searchItem: '',
 	itemExist: false
+}
+const productJSON = localStorage.getItem('products')
+if (productJSON !== null) {
+	products = JSON.parse(productJSON)
 }
 
 const renderProducts = function(products, filters) {
@@ -51,6 +38,7 @@ document.querySelector('#add-product-form').addEventListener('submit', function(
 		title: e.target.elements.productTitle.value,
 		exist: true
 	})
+	localStorage.setItem( 'products', JSON.stringify(products) )
 	renderProducts(products, filters)
 	e.target.elements.productTitle.value = ''
 })
