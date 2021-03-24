@@ -1,11 +1,36 @@
-const products = []
+const products = [
+	{
+		title: 'product 1',
+		exist: true
+	},
+	{
+		title: 'product 2',
+		exist: false
+	},
+	{
+		title: 'product 3',
+		exist: true
+	},
+	{
+		title: 'product 4',
+		exist: false
+	}
+]
 const filters = {
-	searchItem: ''
+	searchItem: '',
+	itemExist: false
 }
 
 const renderProducts = function(products, filters) {
-	const filteredproducts = products.filter(function(item) {
+	let filteredproducts = products.filter(function(item) {
 		return item.title.toLowerCase().includes(filters.searchItem.toLowerCase())
+	})
+	filteredproducts = filteredproducts.filter( function(item) {
+		if(filters.itemExist) {
+			return item.exist
+		} else {
+			return true
+		}
 	})
 	document.querySelector('#products').innerHTML = ''
 	filteredproducts.forEach(function(item) {
@@ -28,4 +53,9 @@ document.querySelector('#add-product-form').addEventListener('submit', function(
 	})
 	renderProducts(products, filters)
 	e.target.elements.productTitle.value = ''
+})
+
+document.querySelector('#checkbox').addEventListener('change', function(e) {
+	filters.itemExist = e.target.checked
+	renderProducts(products, filters)
 })
